@@ -1,0 +1,17 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model PhotoDownloadResponseModel  
+
+<h1>Downloading Photos ...</h1>
+
+@foreach (var x in Model.Batches)
+{
+    @foreach (var p in x.DownloadResults)
+    {
+        <h2>@p.FileName : @p.IsSuccessfullyDownloaded</h2>
+    }
+}
