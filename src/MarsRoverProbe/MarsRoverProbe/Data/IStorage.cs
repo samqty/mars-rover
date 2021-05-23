@@ -15,6 +15,8 @@ namespace MarsRoverProbe.Data
     {
         Task<DownloadResult> Save(string url);
         Task<List<string>> ReadDates(string listName);
+
+        Task<byte[]> GetPhotoContent(string name);
     }
 
     public class FileStorage : IStorage
@@ -26,6 +28,20 @@ namespace MarsRoverProbe.Data
         {
             _appSetting = settings.Value;
             _webHostEnvironment = webHostEnvironment;
+        }
+
+        public async Task<byte[]> GetPhotoContent(string name)
+        {
+            byte[] buffer;
+
+            var filepath = Path.Combine(_appSetting.DownloadDestinationDirectory, name);
+            using (var fs = File.OpenRead(filepath))
+            {
+                buffer = new byte[fs.Length];
+                await fs.ReadAsync(buffer, 0, (int)fs.Length);
+            }
+
+            return buffer;
         }
 
         public async Task<List<string>> ReadDates(string listName)

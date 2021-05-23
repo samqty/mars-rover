@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,6 +15,8 @@ namespace MarsRoverProbe.Services
     public interface IMarsRoverPhotosService
     {
         Task<PhotoDownloadResponseModel> DownloadPhotos(string fileName);
+
+        Task<byte[]> GetLocalPhoto(string name);
     }
     public class MarsRoverPhotosService : IMarsRoverPhotosService
     {
@@ -71,6 +74,11 @@ namespace MarsRoverProbe.Services
                 }));
             }
             return result;
+        }
+
+        public async Task<byte[]> GetLocalPhoto(string name)
+        {
+            return await _storage.GetPhotoContent(name);
         }
     }
 }
