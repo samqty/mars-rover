@@ -29,6 +29,7 @@ namespace MarsRoverProbe
         {
             services.AddTransient<IMarsRoverPhotosService, MarsRoverPhotosService>();
             services.AddTransient<IStorage, FileStorage>();
+            services.AddTransient<IProgressLogger, SignalRProgressLogger>();
 
             services.Configure<AppSetting>(Configuration);
             services.AddSingleton<IConfiguration>(Configuration);

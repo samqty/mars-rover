@@ -6,13 +6,10 @@
 var connection = new signalR.HubConnectionBuilder().withUrl("/loghub").build();
 
 connection.on("LogAdded", function (log) {
-    var li = document.createElement("li");
-    document.getElementById("logList").appendChild(li);
-    // We can assign user-supplied strings to an element's textContent because it
-    // is not interpreted as markup. If you're assigning in any other way, you 
-    // should be aware of possible script injection concerns.
-    li.textContent = log;
+    var label = $(`<label>${log}</lable>`);
+    $("#logList").prepend(label);
 });
+
 connection.start().then(function () {
     
 }).catch(function (err) {
@@ -20,7 +17,7 @@ connection.start().then(function () {
 });
 
 $(document).ready(() => {
-    $("#carouselExampleIndicators").hide();
+    $("#carouselMarsPhotos").hide();
 
     $("#downloadphotosbutton").click(() => {
         $.post('/home/downloadphotos')
@@ -29,15 +26,15 @@ $(document).ready(() => {
                 for (let i = 0; i < x.batches.length; i++)
                 {
                     for (let j = 0; j < x.batches[i].downloadResults.length; j++) {
-                        $(".carousel-indicators").append(`<li data-target="#carouselExampleIndicators" data-slide-to="${index++}" class="active"></li>`);
+                        $(".carousel-indicators").append(`<li data-target="#carouselExampleIndicators" data-slide-to="${index++}" class="carousel-item"></li>`);
                         $(".carousel-inner").append(`
-                            <div class="carousel-item">
-                                <img class="d-block w-100" src="/home/getphoto?filename=${x.batches[i].downloadResults[j].fileName}" alt="First slide">
+                            <div class="carousel-item ${index==1?'active':''}">
+                                <img class="d-block w-100" src="/home/getphoto?filename=${x.batches[i].downloadResults[j].fileName}">
                             </div>`);
                     }
                 }
                 
-                $("#carouselExampleIndicators").show();
+                $("#carouselMarsPhotos").show();
             });
     });
 

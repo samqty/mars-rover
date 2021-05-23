@@ -23,11 +23,13 @@ namespace MarsRoverProbe.Data
     {
         private readonly AppSetting _appSetting;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IProgressLogger _progressLogger;
 
-        public FileStorage(IOptions<AppSetting> settings, IWebHostEnvironment webHostEnvironment)
+        public FileStorage(IOptions<AppSetting> settings, IWebHostEnvironment webHostEnvironment,IProgressLogger progressLogger)
         {
             _appSetting = settings.Value;
             _webHostEnvironment = webHostEnvironment;
+            _progressLogger = progressLogger;
         }
 
         public async Task<byte[]> GetPhotoContent(string name)
@@ -52,6 +54,7 @@ namespace MarsRoverProbe.Data
 
         public async Task<DownloadResult> Save(string url)
         {
+            await _progressLogger.LogProgress($"Downloading [{url}] ..."); 
             var result = new DownloadResult {
                 ImageUrl = url
             };
@@ -65,11 +68,13 @@ namespace MarsRoverProbe.Data
                 await File.WriteAllBytesAsync(downloadFileName, buffer);
                 result.IsSuccessfullyDownloaded = true;
                 result.FileName = filename;
+                await _progressLogger.LogProgress($"Completed [{url}] ...");
             }
             catch (Exception ex)
             {
                 result.Message = ex.Message;
                 result.IsSuccessfullyDownloaded = false;
+                await _progressLogger.LogProgress($"Failed to download [{url}] : {ex.Message}");
             }
 
             return result;

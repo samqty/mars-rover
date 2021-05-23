@@ -16,13 +16,11 @@ namespace MarsRoverProbe.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IMarsRoverPhotosService _marsRoverPhotoService;
-        private readonly IHubContext<LogHub> _hubContext;
 
-        public HomeController(ILogger<HomeController> logger, IMarsRoverPhotosService marsRoverPhotoService, IHubContext<LogHub> hubContext)
+        public HomeController(ILogger<HomeController> logger, IMarsRoverPhotosService marsRoverPhotoService)
         {
             _logger = logger;
             _marsRoverPhotoService = marsRoverPhotoService;
-            _hubContext = hubContext;
         }
 
 
@@ -37,12 +35,6 @@ namespace MarsRoverProbe.Controllers
         {
             var result = await _marsRoverPhotoService.DownloadPhotos("Dates.txt");
             return Ok(result);
-        }
-
-        [HttpGet]
-        public async Task Log()
-        {
-            await _hubContext.Clients.All.SendAsync("LogAdded", "this is my message");
         }
 
         public IActionResult Privacy()

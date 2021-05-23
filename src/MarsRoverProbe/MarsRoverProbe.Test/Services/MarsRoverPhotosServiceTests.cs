@@ -51,7 +51,8 @@ namespace MarsRoverProbe.Test.Services
             var service = new MarsRoverPhotosService(nasaApiMock.Object,
                 new Mock<ILogger<MarsRoverPhotosService>>().Object,
                 storageMock.Object,
-                settingMock.Object);
+                settingMock.Object,
+                new Mock<IProgressLogger>().Object);
 
             //when a download photos is invoked
             var result = await service.DownloadPhotos(datesFileName);

@@ -24,16 +24,19 @@ namespace MarsRoverProbe.Services
         private readonly ILogger<IMarsRoverPhotosService> _logger;
         private readonly IStorage _storage;
         private readonly AppSetting _appSetting;
+        private readonly IProgressLogger _progressLogger;
 
-        public MarsRoverPhotosService(INasaApi nasaApi, 
-            ILogger<IMarsRoverPhotosService> logger, 
+        public MarsRoverPhotosService(INasaApi nasaApi,
+            ILogger<IMarsRoverPhotosService> logger,
             IStorage storage,
-            IOptions<AppSetting> setting)
+            IOptions<AppSetting> setting, 
+            IProgressLogger progressLogger)
         {
             _nasaApi = nasaApi;
             _logger = logger;
             _storage = storage;
             _appSetting = setting.Value;
+            _progressLogger = progressLogger;
         }
 
         public async Task<PhotoDownloadResponseModel> DownloadPhotos(string fileName)
@@ -43,9 +46,12 @@ namespace MarsRoverProbe.Services
                 Batches = new List<PhotoDownloadBatchModel>()
             };
 
+            await _progressLogger.LogProgress($"Reading dates from : [{fileName}]");
+
             var photodates = await _storage.ReadDates(result.FileName);
             foreach (var photodate in photodates)
             {
+                await _progressLogger.LogProgress($"Fetching photo metadata for : [{photodate}]");
                 var batch = new PhotoDownloadBatchModel
                 {
                     RawDate = photodate,
@@ -54,7 +60,10 @@ namespace MarsRoverProbe.Services
                 result.Batches.Add(batch);
 
                 if (!DateTime.TryParse(photodate, out var dt))
+                {
+                    await _progressLogger.LogProgress($"Invalid date format : [{photodate}]");
                     continue;
+                }
                 batch.Date = dt;
 
                 var photos = await _nasaApi.GetPhotos(dt.ToString("yyyy-MM-dd"), _appSetting.NasaApiKey);
@@ -72,7 +81,11 @@ namespace MarsRoverProbe.Services
                     ImageUrl = x.ImageUrl,
                     IsSuccessfullyDownloaded = x.IsSuccessfullyDownloaded
                 }));
+
+                await _progressLogger.LogProgress($"Completed Processing : [{photodate}]");
             }
+
+            await _progressLogger.LogProgress($"Completed All Dates  in : [{fileName}]");
             return result;
         }
 
