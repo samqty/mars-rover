@@ -21,11 +21,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\" />
+    <ProjectReference Include="..\MarsRoverProbe\MarsRoverProbe.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MarsRoverProbe\MarsRoverProbe.csproj" />
+    <Folder Include="Data\TestStorageFolder\" />
   </ItemGroup>
 
 </Project>

@@ -30,6 +30,12 @@ namespace MarsRoverProbe.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetPhoto(string filename)
+        {
+            return File(await _marsRoverPhotoService.GetLocalPhoto(filename), "image/jpg");
+        }
+
         public IActionResult Privacy()
         {
             return View();
@@ -41,10 +47,5 @@ namespace MarsRoverProbe.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetPhoto(string filename)
-        {
-            return File(await _marsRoverPhotoService.GetLocalPhoto(filename), "image/jpg");
-        }
     }
 }

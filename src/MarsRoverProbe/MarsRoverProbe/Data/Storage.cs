@@ -15,7 +15,6 @@ namespace MarsRoverProbe.Data
     {
         Task<DownloadResult> Save(string url);
         Task<List<string>> ReadDates(string listName);
-
         Task<byte[]> GetPhotoContent(string name);
     }
 
@@ -36,7 +35,7 @@ namespace MarsRoverProbe.Data
         {
             byte[] buffer;
 
-            var filepath = Path.Combine(_appSetting.DownloadDestinationDirectory, name);
+            var filepath = Path.Combine(_webHostEnvironment.ContentRootPath, _appSetting.DownloadDestinationDirectory, name);
             using (var fs = File.OpenRead(filepath))
             {
                 buffer = new byte[fs.Length];

@@ -1,4 +1,5 @@
 ﻿using MarsRoverProbe.Data;
+using MarsRoverProbe.Data.Models;
 using MarsRoverProbe.Infrastructure;
 using MarsRoverProbe.Services;
 using Microsoft.Extensions.Logging;
@@ -23,18 +24,18 @@ namespace MarsRoverProbe.Test.Services
                 NasaApiKey = "TestKey"
             };
 
-            var testNasaPhotos = new Data.Models.PhotosResponse
+            var testNasaPhotos = new PhotosResponse
             {
-                photos = new List<Data.Models.Photo>
+                photos = new List<Photo>
                 {
-                    new Data.Models.Photo
+                    new Photo
                     {
                         img_src = "http://test.com/testurl.png"
                     }
                 }
             };
 
-            var photoDownloadResult = new Data.Models.DownloadResult
+            var photoDownloadResult = new DownloadResult
             {
                 ImageUrl = testNasaPhotos.photos[0].img_src
             };
@@ -62,6 +63,31 @@ namespace MarsRoverProbe.Test.Services
             storageMock.Verify(x => x.ReadDates(datesFileName), Times.Once);
             storageMock.Verify(x => x.Save(testNasaPhotos.photos[0].img_src), Times.Once);
             nasaApiMock.Verify(x => x.GetPhotos(dates[0], appSetting.NasaApiKey));
+        }
+
+        [Fact]
+        public async Task GetLocalPhotoTest()
+        {
+            //given a service instance and a photo
+            var fileName = "testphoto.jpg";
+            var nasaApiMock = new Mock<INasaApi>();
+            var storageMock = new Mock<IStorage>();
+            var settingMock = new Mock<IOptions<AppSetting>>();
+
+            storageMock.Setup(x => x.GetPhotoContent(fileName)).Returns(Task.FromResult(System.Text.ASCIIEncoding.UTF8.GetBytes("Test Photo")));
+
+            var service = new MarsRoverPhotosService(nasaApiMock.Object,
+                new Mock<ILogger<MarsRoverPhotosService>>().Object,
+                storageMock.Object,
+                settingMock.Object,
+                 new Mock<IProgressLogger>().Object);
+
+            //when getphoto is called
+            var result = await service.GetLocalPhoto(fileName);
+
+            //then it invokes the underlying storage service with the correct parameter
+            Assert.NotNull(result);
+            storageMock.Verify(x => x.GetPhotoContent(fileName), Times.Once);
         }
     }
 }
