@@ -6,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -29,7 +28,7 @@ namespace MarsRoverProbe.Services
         public MarsRoverPhotosService(INasaApi nasaApi,
             ILogger<IMarsRoverPhotosService> logger,
             IStorage storage,
-            IOptions<AppSetting> setting, 
+            IOptions<AppSetting> setting,
             IProgressLogger progressLogger)
         {
             _nasaApi = nasaApi;
@@ -41,7 +40,8 @@ namespace MarsRoverProbe.Services
 
         public async Task<PhotoDownloadResponseModel> DownloadPhotos(string fileName)
         {
-            var result = new PhotoDownloadResponseModel { 
+            var result = new PhotoDownloadResponseModel
+            {
                 FileName = fileName,
                 Batches = new List<PhotoDownloadBatchModel>()
             };

@@ -25,7 +25,7 @@ namespace MarsRoverProbe.Data
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IProgressLogger _progressLogger;
 
-        public FileStorage(IOptions<AppSetting> settings, IWebHostEnvironment webHostEnvironment,IProgressLogger progressLogger)
+        public FileStorage(IOptions<AppSetting> settings, IWebHostEnvironment webHostEnvironment, IProgressLogger progressLogger)
         {
             _appSetting = settings.Value;
             _webHostEnvironment = webHostEnvironment;
@@ -48,14 +48,15 @@ namespace MarsRoverProbe.Data
 
         public async Task<List<string>> ReadDates(string listName)
         {
-            var path = Path.Combine(_webHostEnvironment.ContentRootPath,_appSetting.DatesFilesDirectory, listName);
+            var path = Path.Combine(_webHostEnvironment.ContentRootPath, _appSetting.DatesFilesDirectory, listName);
             return await Task.FromResult(File.ReadAllLines(path).ToList());
         }
 
         public async Task<DownloadResult> Save(string url)
         {
-            await _progressLogger.LogProgress($"Downloading [{url}] ..."); 
-            var result = new DownloadResult {
+            await _progressLogger.LogProgress($"Downloading [{url}] ...");
+            var result = new DownloadResult
+            {
                 ImageUrl = url
             };
 

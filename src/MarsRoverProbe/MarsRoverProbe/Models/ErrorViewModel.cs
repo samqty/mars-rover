@@ -1,5 +1,3 @@
-using System;
-
 namespace MarsRoverProbe.Models
 {
     public class ErrorViewModel

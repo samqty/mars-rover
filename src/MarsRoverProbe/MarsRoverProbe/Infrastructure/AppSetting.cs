@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MarsRoverProbe.Infrastructure
+﻿namespace MarsRoverProbe.Infrastructure
 {
     public class AppSetting
     {

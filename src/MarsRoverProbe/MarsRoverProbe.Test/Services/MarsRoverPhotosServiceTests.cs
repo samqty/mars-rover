@@ -1,14 +1,12 @@
 ﻿using MarsRoverProbe.Data;
 using MarsRoverProbe.Infrastructure;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-using Microsoft.Extensions.Options;
 using MarsRoverProbe.Services;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Moq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace MarsRoverProbe.Test.Services
 {
@@ -20,7 +18,8 @@ namespace MarsRoverProbe.Test.Services
             //given a file containing list of dates
             var datesFileName = "test.txt";
             var dates = new List<string> { "2020-02-01" };
-            var appSetting = new AppSetting { 
+            var appSetting = new AppSetting
+            {
                 NasaApiKey = "TestKey"
             };
 
@@ -35,7 +34,8 @@ namespace MarsRoverProbe.Test.Services
                 }
             };
 
-            var photoDownloadResult = new Data.Models.DownloadResult {
+            var photoDownloadResult = new Data.Models.DownloadResult
+            {
                 ImageUrl = testNasaPhotos.photos[0].img_src
             };
 
