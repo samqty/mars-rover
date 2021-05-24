@@ -23,8 +23,6 @@ namespace MarsRoverProbe.Controllers
             _marsRoverPhotoService = marsRoverPhotoService;
         }
 
-
-
         public IActionResult Index()
         {
             return View();
@@ -33,7 +31,7 @@ namespace MarsRoverProbe.Controllers
         [HttpPost]
         public async Task<IActionResult> DownloadPhotos()
         {
-            var result = await _marsRoverPhotoService.DownloadPhotos("Dates.txt");
+            var result = await _marsRoverPhotoService.DownloadPhotos("dates.txt");
             return Ok(result);
         }
 

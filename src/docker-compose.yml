@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  marsroverprobe:
+    image: mcr.microsoft.com/dotnet/core/samples:aspnetapp
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - '5000:80'
+    build:
+      context: ./MarsRoverProbe
+      #path to Dockerfile is relative to the context path set above
+      dockerfile: ./MarsRoverProbe/Dockerfile
