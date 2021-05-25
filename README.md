@@ -21,8 +21,13 @@ This space contain general infrastructure code, like typed appsetting config. An
 
 In order to run the application, 
 1) you can do that via visual studio (it is built using visual studio 2019).
-2) Command line dotnet run
-3) In docker container - use docker-compose.yml to build and run.
+2) Command line  ```dotnet run```
+3) In docker container - use ```docker-compose.yml``` to build and run.
+
+### Local Folder Location Configs
+The local directories for both the list of dates as well as, where the downloaded images are stored is configured via an appsetting entry. To change the location anywhere other than the default value open the appsetting.json file and update these two keys
+1) DownloadDestinationDirectory
+2) DatesFilesDirectory
 
 ## Tools and Languages Used
 * Visual Studio 2019 IDE
@@ -30,6 +35,7 @@ In order to run the application,
 * SignalR
 * Refit
 * xUnit
+* Serilog
 
 ## Tests
 Unit test coverage for happy path is also include and uses xUnit
