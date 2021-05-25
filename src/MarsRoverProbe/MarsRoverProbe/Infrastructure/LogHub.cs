@@ -7,7 +7,7 @@ namespace MarsRoverProbe.Infrastructure
     {
         public async Task SendLog(string log)
         {
-            await Clients.All.SendAsync("LogAdded", log);
+            await Clients.Caller.SendAsync("LogAdded", log);
         }
     }
 }
