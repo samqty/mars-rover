@@ -43,5 +43,9 @@ namespace MarsRoverProbe.Test.Data
             Assert.NotNull(result);
             Assert.Equal(result, content);
         }
+
+        //test reading list from file
+
+        //test saving http response from api call
     }
 }
