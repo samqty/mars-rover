@@ -17,6 +17,9 @@ This layer contains the contract and implementation to the source of the data an
 ### Infrastructure
 This space contain general infrastructure code, like typed appsetting config. And it also contains a utility that reports logs to the client browser using SignarlR.
 
+### Clientside UI
+This is a rough implemenation of the UI for a browser. This side of the application is light and contains minimal script and markup to enable client side rendering of data using databinding.
+
 ## Getting Started
 
 In order to run the application, 
@@ -32,6 +35,7 @@ The local directories for both the list of dates as well as, where the downloade
 ## Tools and Languages Used
 * Visual Studio 2019 IDE
 * .Net 5
+* Angularjs
 * SignalR
 * Refit
 * xUnit
@@ -39,3 +43,13 @@ The local directories for both the list of dates as well as, where the downloade
 
 ## Tests
 Unit test coverage for happy path is also include and uses xUnit
+
+## Future Considerations
+This project is build to fulfill the acceptance criteria and show case some level of application architecture as well as ability to put together a functioning application. Some area of extending this project include:
+1) Additional unit test coverage
+2) Directly upload list of dates
+3) Ability to partially display photos as they are getting downloaded
+4) Better Ability to view individual photos Enlarged
+5) client side unit test coverage
+
+This list can keep on going :)
