@@ -10,6 +10,10 @@
         "dist/browser/signalr.js",
         "dist/browser/signalr.min.js"
       ]
+    },
+    {
+      "library": "angular.js@1.8.2",
+      "destination": "wwwroot/angular.js/"
     }
   ]
 }

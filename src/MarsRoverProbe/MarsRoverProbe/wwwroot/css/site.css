@@ -59,8 +59,9 @@ html {
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    font-family: 'Courier New', monospace;
 }
 .footer {
   position: absolute;
@@ -83,3 +84,4 @@ body {
     #logList > label {
         display:block;
     }
+

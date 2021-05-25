@@ -4,40 +4,33 @@
 // Write your JavaScript code.
 
 var connection = new signalR.HubConnectionBuilder().withUrl("/loghub").build();
-
-connection.on("LogAdded", function (log) {
-    var label = $(`<label>${log}</lable>`);
-    $("#logList").prepend(label);
-});
-
 connection.start().then(function () {
     
 }).catch(function (err) {
     return console.error(err.toString());
 });
 
-$(document).ready(() => {
-    $("#carouselMarsPhotos").hide();
+var app = angular.module('myApp', []);
 
-    $("#downloadphotosbutton").click(() => {
-        $.post('/home/downloadphotos')
-            .done(x => {
-                let index = 0;
-                for (let i = 0; i < x.batches.length; i++)
-                {
-                    for (let j = 0; j < x.batches[i].downloadResults.length; j++) {
-                        $(".carousel-indicators").append(`<li data-target="#carouselExampleIndicators" data-slide-to="${index++}" class="carousel-item"></li>`);
-                        $(".carousel-inner").append(`
-                            <div class="carousel-item ${index==1?'active':''}">
-                                <img class="d-block w-100" src="/home/getphoto?filename=${x.batches[i].downloadResults[j].fileName}">
-                            </div>`);
-                    }
-                }
-                
-                $("#carouselMarsPhotos").show();
+app.controller('marsPhotosController', function ($scope, $http) {
+    $scope.logs = ['ready!'];
+    $scope.result = {};
+
+    $scope.isLoading = false;
+
+    $scope.downloadPhotos = function () {
+        $scope.isLoading = true;
+
+        $http.post('/home/downloadphotos')
+            .then(response => {
+                $scope.result.fileName = response.data.fileName;
+                $scope.result.batches = response.data.batches;
+                $scope.isLoading = false;
             });
+    }
+
+    connection.on("LogAdded", function (log) {
+        $scope.logs.unshift(log);
+        $scope.$apply();
     });
-
-    $("#logtest").click(() => $.get("/home/log"));
-
 });

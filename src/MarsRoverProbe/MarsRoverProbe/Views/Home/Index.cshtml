@@ -5,25 +5,31 @@
 <div class="text-center">
     <h1 class="display-4">Rover Photos Downloader</h1>
 
-    <button id="downloadphotosbutton" class="btn btn-lg btn-outline-primary">Start Download</button>
-
+    <button id="downloadphotosbutton" 
+            ng-click="downloadPhotos()" 
+            class="btn btn-lg btn-outline-primary"
+            ng-disabled="isLoading">Start Download</button>
+    
     <hr />
 
-    <div id="carouselMarsPhotos" class="carousel slide pointer-event" data-ride="carousel" style="">
-        <div class="carousel-inner">
+    <div ng-if="result.fileName">
+        <h3>Download Result</h3>
+        <h4>File Name : {{result.fileName}}</h4>
+        <div ng-repeat="batch in result.batches">
+            <p><strong>Date : {{batch.rawDate}}</strong>  <span style="color:red" ng-hide="batch.isValid">[Invalid Date!]</span></p>
+            <p>Total Photos : {{batch.downloadResults.length}}</p>
+            <div>
+                <img style="width:200px;" ng-repeat="p in batch.downloadResults" class="img-thumbnail" src="/home/getphoto?filename={{p.fileName}}" />
+            </div>
+            <hr />
         </div>
-        <a class="carousel-control-prev" href="#carouselMarsPhotos" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselMarsPhotos" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
+        
     </div>
 
-    <div id="logList" style="">
-        <label>Ready!</label>
+    <div id="logList">
+        <label ng-repeat="log in logs track by $index">
+            {{log}}
+        </label>
     </div>
 
 </div>

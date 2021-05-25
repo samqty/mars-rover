@@ -9,10 +9,9 @@
 </head>
 <body>
     <header>
-        
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main" class="pb-3" ng-app="myApp" ng-controller="marsPhotosController">
             @RenderBody()
         </main>
     </div>
@@ -22,6 +21,7 @@
             &copy; 2021 - MarsRoverProbe - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+    <script src="~/lib/angular.js/angular.js"></script>
     <script src="~/js/signalr/dist/browser/signalr.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
